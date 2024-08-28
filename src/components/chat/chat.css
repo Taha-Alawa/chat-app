@@ -1,0 +1,189 @@
+.chat {
+  flex: 2;
+  border-left: 1px solid #dddddd35;
+  border-right: 1px solid #dddddd35;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .top {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #dddddd35;
+
+    .user {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+
+      img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      .texts {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        span {
+          font-size: 18px;
+          font-weight: bold;
+        }
+
+        p {
+          font-size: 14px;
+          font-weight: 300;
+          color: #a5a5a5;
+        }
+      }
+    }
+
+    .icons {
+      display: flex;
+      gap: 20px;
+      
+      img {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+
+  .center {
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    gap: 20px;
+
+    .message {
+      max-width: 70%;
+      display: flex;
+      gap: 20px;
+
+      &.own {
+        align-self: flex-end;
+
+        .texts {
+          p {
+            background: #5183fe;
+          }
+        }
+      }
+
+      img {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      .texts {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        img {
+          width: 100%;
+          height: 300px;
+          border-radius: 10px;
+          object-fit: cover;
+        }
+
+        p {
+          padding: 20px;
+          background: #1119274d;
+          border-radius: 10px;
+        }
+
+        span {
+          font-size: 13px;
+        }
+      }
+    }
+  }
+
+  .bottom {
+    margin-top: auto;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid #dddddd35;
+    gap: 20px;
+
+    .icons {
+      display: flex;
+      gap: 20px;
+    }
+
+    img {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+
+    input {
+      flex: 1;
+      background: #11192880;
+      border: none;
+      outline: none;
+      color: #fff;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+
+    .emoji {
+      position: relative;
+
+      .picker {
+        position: absolute;
+        bottom: 50px;
+        right: 0;
+      }
+    }
+
+    .sendButton {
+      background: #5183fe;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  }
+}
+
+/* Hide the scrollbar track background */
+.center::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Hide the scrollbar buttons (arrows) */
+.center::-webkit-scrollbar-button {
+  display: none;
+}
+
+/* Style the scrollbar track to be transparent */
+.center::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Style the scrollbar thumb */
+.center::-webkit-scrollbar-thumb {
+  background-color: #11192880;
+  border-radius: 10px;
+}
+
+/* Change the thumb color when hovered */
+.center::-webkit-scrollbar-thumb:hover {
+  background-color: #111928c4;
+}
