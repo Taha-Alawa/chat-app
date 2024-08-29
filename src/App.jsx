@@ -1,15 +1,26 @@
-import Chat from "./components/chat/Chat"
-import Detial from "./components/detail/Detial"
-import List from "./components/list/List"
+import Chat from "./components/chat/Chat";
+import Detial from "./components/detail/Detial";
+import List from "./components/list/List";
+import Login from "./components/login/login";
+import Notification from "./components/notification/Notification";
 
 const App = () => {
-  return (
-    <div className='container'>
-      <List />
-      <Chat />
-      <Detial />
-    </div>
-  )
-}
+  const user = true;
 
-export default App
+  return (
+    <main className="container">
+      {user ? (
+        <>
+          <List />
+          <Chat />
+          <Detial />
+        </>
+      ) : (
+        <Login />
+      )}
+      <Notification />
+    </main>
+  );
+};
+
+export default App;
