@@ -54,11 +54,15 @@
         border-radius: 5px;
         cursor: pointer;
         font-weight: 500;
+
+        &:disabled {
+          cursor: not-allowed;
+        }
       }
     }
   }
 
-  .seprator {
+  .separator {
     height: 80%;
     width: 2px;
     background: #dddddd35;
