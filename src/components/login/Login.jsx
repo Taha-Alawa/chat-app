@@ -15,6 +15,8 @@ const Login = () => {
     url: "",
   });
 
+  const [login, setLogin] = useState(true);
+
   const [loading, setLoading] = useState(false);
 
   const handleAvatar = (e) => {
@@ -63,11 +65,12 @@ const Login = () => {
         chats: [],
       });
 
-      toast.success("Account created! You can login now!");
+      toast.success("Account created!");
     } catch (err) {
       console.log(err);
       toast.error(err.message);
     } finally {
+      await signInWithEmailAndPassword(auth, email, password);
       setLoading(false);
     }
   };
@@ -92,16 +95,17 @@ const Login = () => {
 
   return (
     <div className="login">
-      <div className="item">
+      {login ? 
+      (<div className="item">
         <h2>Welcome back,</h2>
         <form onSubmit={handleLogin}>
           <input type="email" placeholder="Email" name="email" />
           <input type="password" placeholder="Password" name="password" />
           <button disabled={loading}>{loading ? "Loading" : "Sign In"}</button>
         </form>
-      </div>
-      <div className="separator"></div>
-      <div className="item">
+        <p onClick={() => setLogin(prev => !prev)}>Create an account</p>
+      </div>) :
+      (<div className="item">
         <h2>Create an Account</h2>
         <form onSubmit={handleRegister}>
           <label htmlFor="file">
@@ -119,7 +123,8 @@ const Login = () => {
           <input type="password" placeholder="Password" name="password" />
           <button disabled={loading}>{loading ? "Loading" : "Sign Up"}</button>
         </form>
-      </div>
+        <p onClick={() => setLogin(prev => !prev)}>Sign In</p>
+      </div>)}
     </div>
   );
 };
