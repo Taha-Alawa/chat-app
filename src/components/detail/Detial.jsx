@@ -1,3 +1,4 @@
+import { auth } from "../../lib/firebas";
 import "./detial.css";
 
 const Detial = () => {
@@ -92,7 +93,7 @@ const Detial = () => {
           </div>
         </section>
         <button>Block User</button>
-        <button className="logout">Logout</button>
+        <button className="logout" onClick={() => auth.signOut()}>Logout</button>
       </div>
     </section>
   );

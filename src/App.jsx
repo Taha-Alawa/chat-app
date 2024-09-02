@@ -6,27 +6,33 @@ import Login from "./components/login/login";
 import Notification from "./components/notification/Notification";
 import { useEffect } from "react";
 import { auth } from "./lib/firebas";
+import { useUserStore } from "./lib/userStore";
+import { useChatStore } from "./lib/chatStore";
 
 const App = () => {
-  const user = false;
+  // the state we created in userStore
+  const {currentUser, isLoading, fetchUserInfo} = useUserStore()
+  const { chatId } = useChatStore()
 
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, (user)=> {
-      console.log(user)
+      fetchUserInfo(user?.uid)
     })
 
     return () => {
       unSub()
     }
-  }, []);
+  }, [fetchUserInfo]);
+
+  if (isLoading) return <h3 className="loading">Loading...</h3> 
 
   return (
     <main className="container">
-      {user ? (
+      {currentUser ? (
         <>
           <List />
-          <Chat />
-          <Detial />
+          {chatId && <Chat />}
+          {chatId && <Detial />}
         </>
       ) : (
         <Login />

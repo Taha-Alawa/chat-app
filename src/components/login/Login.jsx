@@ -70,7 +70,9 @@ const Login = () => {
       console.log(err);
       toast.error(err.message);
     } finally {
+      // after created an account will sign in auto and refresh the page
       await signInWithEmailAndPassword(auth, email, password);
+      window.location.reload(false)
       setLoading(false);
     }
   };
