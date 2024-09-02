@@ -18,7 +18,8 @@ body {
 .container {
   width: 90vw;
   height: 90vh;
-  background: #111928bf;
+  position: relative;
+  background: #2d426980;
   backdrop-filter: blur(19px) saturate(180%);
   border-radius: 12px;
   border: 1px solid #ffffff20;
@@ -30,4 +31,19 @@ body {
   font-size: 36px;
   border-radius: 10px;
   background: #111928e6;
+}
+
+/* Hide buttons by default */
+.toggle-button {
+  display: none;
+}
+
+@media (max-width: 1125px) {
+  .toggle-button {
+    display: block;
+    position: fixed;
+    top: -50px;
+    left: -10px;
+    margin: 10px; 
+  }
 }

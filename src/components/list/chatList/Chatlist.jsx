@@ -1,4 +1,4 @@
-import { doc, getDoc, onSnapshot } from "firebase/firestore";
+import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { useUserStore } from "../../../lib/userStore";
 import Adduser from "./addUser/Adduser";
 import "./chatlist.css";
@@ -8,6 +8,7 @@ import { useChatStore } from "../../../lib/chatStore";
 
 const Chatlist = () => {
   const [addMode, setAddMode] = useState(false);
+  const [input, setInput] = useState("");
   const [chats, setChats] = useState([]);
   const { currentUser } = useUserStore();
   const { chatId, changeChat } = useChatStore();
@@ -55,20 +56,23 @@ const Chatlist = () => {
     const userChatsRef = doc(db, "userchats", currentUser.id)
 
     try {
-      
+      await updateDoc(userChatsRef, {
+        chats: userChats,
+      })
+      changeChat(chat.chatId, chat.user);
     } catch (error) {
       console.log(error)
-    }
-    
-    changeChat(chat.chatId, chat.user);
+    }    
   };
+
+  const filteredChats = chats.filter(c=> c.user.username.toLowerCase().includes(input.toLowerCase()))
 
   return (
     <section className="chatlist">
       <div className="search">
         <label className="searchBar">
           <img src="./search.png" alt="search" />
-          <input type="text" placeholder="Search" />
+          <input type="text" placeholder="Search" onChange={(e) => setInput(e.target.value)} />
         </label>
         <img
           src={addMode ? "./minus.png" : "./plus.png"}
@@ -77,7 +81,7 @@ const Chatlist = () => {
           onClick={() => setAddMode((prev) => !prev)}
         />
       </div>
-      {chats.map((chat) => (
+      {filteredChats.map((chat) => (
         <div
           className="item"
           key={chat.chatId}
@@ -86,9 +90,9 @@ const Chatlist = () => {
             backgroundColor: chat?.isSeen ? "transparent" : "#111928ce"
           }}
         >
-          <img src={chat.user.avatar || "./avatar.png"} alt="" />
+          <img src={chat.user.blocked.includes(currentUser.id) ? "./avatar.png" : chat.user.avatar || "./avatar.png"} alt="" />
           <div className="texts">
-            <span>{chat.user.username}</span>
+            <span>{chat.user.blocked.includes(currentUser.id) ? "User" : chat.user.username}</span>
             <p>{chat.lastMessage}</p>
           </div>
         </div>

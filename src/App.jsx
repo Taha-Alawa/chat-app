@@ -4,12 +4,13 @@ import Detial from "./components/detail/Detial";
 import List from "./components/list/List";
 import Login from "./components/login/login";
 import Notification from "./components/notification/Notification";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { auth } from "./lib/firebas";
 import { useUserStore } from "./lib/userStore";
 import { useChatStore } from "./lib/chatStore";
 
 const App = () => {
+  const [showDetial, setShowDetial] = useState(false);
   // the state we created in userStore
   const {currentUser, isLoading, fetchUserInfo} = useUserStore()
   const { chatId } = useChatStore()
@@ -31,8 +32,8 @@ const App = () => {
       {currentUser ? (
         <>
           <List />
-          {chatId && <Chat />}
-          {chatId && <Detial />}
+          {chatId && <Chat setShowDetial={setShowDetial} />}
+          {chatId && showDetial && <Detial />}
         </>
       ) : (
         <Login />

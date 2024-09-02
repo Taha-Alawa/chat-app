@@ -1,16 +1,36 @@
-import { auth } from "../../lib/firebas";
+import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
+import { useChatStore } from "../../lib/chatStore";
+import { auth, db } from "../../lib/firebas";
+import { useUserStore } from "../../lib/userStore";
 import "./detial.css";
 
 const Detial = () => {
+  const { chatId, user, isCurrentUserBlocked, isReceiverBlocked, changeBlock} = useChatStore()
+  const {currentUser} = useUserStore()
+
+  const handleblock = async() => {
+    if(!user) return
+
+    const userDocRef = doc(db, "users", currentUser.id)
+
+    try {
+      await updateDoc(userDocRef, {
+        blocked: isReceiverBlocked ? arrayRemove(user.id) : arrayUnion(user.id)
+      })
+      changeBlock()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <section className="detial">
       <div className="user">
-        <img src="./avatar.png" alt="" />
-        <h2>Taha Dev</h2>
-        <p>Lorem ipsum dolor sit amet.</p>
+        <img src={user?.avatar || "./avatar.png"} alt="" />
+        <h2>{user?.username || "User"}</h2>
       </div>
       <div className="info">
-        <section className="option">
+        {/* <section className="option">
           <div className="title">
             <span>Chat Settings</span>
             <img src="./arrowUp.png" alt="" />
@@ -91,8 +111,14 @@ const Detial = () => {
             <span>Shared Files</span>
             <img src="./arrowUp.png" alt="" />
           </div>
-        </section>
-        <button>Block User</button>
+        </section> */}
+        <button onClick={handleblock}>{
+          isCurrentUserBlocked 
+          ? "You Are Blocked" 
+          : isReceiverBlocked
+          ? "Un Block" 
+          : "Block User"
+          }</button>
         <button className="logout" onClick={() => auth.signOut()}>Logout</button>
       </div>
     </section>
